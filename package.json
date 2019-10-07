@@ -4,8 +4,35 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently -n S,C npm:startServer npm:startClient",
+    "startServer": "cd server && npm start",
+    "startClient": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.1",
+    "prettier": "^1.18.2"
+  },
+  "eslintConfig": {
+            "extends": [
+                "prettier"
+   ]
+        },
+        "lint-staged": {
+            "client/src/**/*.{js,jsx, json,ts,tsx,json,css,scss,md}": [
+             "prettier --write",
+                "git add"
+            ]
+        },
+        "husky": {
+            "hooks": {
+                "pre-commit": "lint-staged"
+   }
+    }
+
 }
