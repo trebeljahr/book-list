@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import Book from './Book';
+import AddBook from './AddBook';
+import { uuid, getExampleBook } from '../utils';
 
-const defaultBooks = {
-    'Harry Potter': {
-        name: 'Harry Potter',
-        readDates: [
-            {
-                beginning: new Date(),
-                end: null,
-            },
-        ],
-        purchased: false,
-    },
-};
+const defaultBooks = [getExampleBook(), getExampleBook()];
 
 const defaultFilters = {
     purchased: 'false',
@@ -22,31 +13,33 @@ const Booklist = () => {
     const [books, setBooks] = useState(defaultBooks);
     const [filters, setFilters] = useState(defaultFilters);
 
-    const buyBook = name => {
-        setBooks({ ...books, [name]: { ...books[name], purchased: true } });
-    };
-    const unbuyBook = name => {
-        setBooks({ ...books, [name]: { ...books[name], purchased: false } });
+    const changeBookInfo = (id, fn) => {
+        setBooks(findAndExecute(books, id, fn));
     };
 
-    const addBook = () => {
-        console.log('Adding book!');
-    };
     return (
         <div className="booklist">
             <ul>
-                {Object.keys(books).map(name => (
-                    <Book
-                        key={name}
-                        book={books[name]}
-                        unbuyBook={() => unbuyBook(name)}
-                        buyBook={() => buyBook(name)}
-                    ></Book>
+                {books.map(book => (
+                    <Book key={book.id} book={book} changeBookInfo={changeBookInfo}></Book>
                 ))}
             </ul>
-            <button onClick={addBook}>Add book </button>
+            <AddBook books={books} setBooks={setBooks} />
         </div>
     );
 };
+
+export function findAndExecute(elements, id, fn) {
+    return elements.map(element => {
+        if (element.id === id) {
+            const newElement = fn(element);
+            if (newElement) {
+                return newElement;
+            }
+            return;
+        }
+        return element;
+    });
+}
 
 export default Booklist;
