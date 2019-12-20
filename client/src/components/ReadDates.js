@@ -1,7 +1,6 @@
 import React from 'react';
-import { uuid } from '../utils';
+import { uuid, findAndExecute } from '../utils';
 import ReadDate from './ReadDate';
-import { findAndExecute } from './Booklist';
 
 const ReadDates = ({ changeBookInfo, book }) => {
     const { id } = book;

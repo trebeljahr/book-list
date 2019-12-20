@@ -1,7 +1,7 @@
 import React from 'react';
 import ReadDates from './ReadDates';
 
-const Book = ({ book, changeBookInfo, setBooks }) => {
+const Book = ({ book, changeBookInfo, deleteBook }) => {
     const { id, name, purchased } = book;
     const purchase = book => {
         return {
@@ -23,15 +23,21 @@ const Book = ({ book, changeBookInfo, setBooks }) => {
         changeBookInfo(id, unPurchase);
     };
 
+    const deleteThisBook = () => {
+        deleteBook(id);
+    };
+
     return (
-        <li className={book.readDates.length > 0 ? 'green' : 'red'}>
+        <li className={book.readDates.length > 0 ? 'strikethrough' : ''}>
             {name}
+            <button onClick={deleteThisBook}>Delete</button>
+
             {purchased ? (
                 <button onClick={unbuy}>Unbuy</button>
             ) : (
                 <button onClick={buy}>Buy</button>
             )}
-            <ReadDates book={book} changeBookInfo={changeBookInfo} setBooks={setBooks} />
+            <ReadDates book={book} changeBookInfo={changeBookInfo} />
         </li>
     );
 };

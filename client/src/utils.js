@@ -13,3 +13,17 @@ export function getExampleBook() {
     };
     return exampleBook;
 }
+
+export function findAndExecute(elements, id, fn) {
+    return elements.map(element => {
+        if (element.id === id) {
+            const newElement = fn(element);
+            if (newElement) {
+                return newElement;
+            }
+            // eslint-disable-next-line
+            return;
+        }
+        return element;
+    });
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { uuid, getExampleBook } from '../utils';
+import { getExampleBook } from '../utils';
 
 const AddBook = ({ setBooks }) => {
     const addBook = () => {
