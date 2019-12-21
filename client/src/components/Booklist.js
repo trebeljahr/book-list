@@ -25,9 +25,17 @@ const Booklist = () => {
     const booksToRender = books.filter(book => {
         let out = true;
         filters.forEach(filter => {
-            switch (filter.id) {
+            switch (filter.category) {
                 case possibleFilters.purchased:
-                    if (book[filter.id] !== filter.value) {
+                    if (book[filter.category] !== filter.value) {
+                        out = out && false;
+                    }
+                    break;
+                case possibleFilters.author:
+                case possibleFilters.name:
+                    const bookname = book[filter.category].toLowerCase();
+                    const foundSubstring = bookname.search(filter.value.toLowerCase()) !== -1;
+                    if (!foundSubstring) {
                         out = out && false;
                     }
                     break;

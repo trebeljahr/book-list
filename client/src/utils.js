@@ -7,6 +7,7 @@ export function uuid(a) {
 export function getExampleBook() {
     const exampleBook = {
         id: uuid(),
+        author: 'Joanne K. Rowling',
         name: 'Harry Potter',
         readDates: [],
         purchased: false,

@@ -57,7 +57,9 @@ const ReadDates = ({ changeBookInfo, book }) => {
                     />
                 );
             })}
-            <button onClick={addReadDate}>Add another read date</button>
+            <button onClick={addReadDate}>
+                Add {book.readDates.length > 0 && 'another'} read date
+            </button>
         </div>
     );
 };

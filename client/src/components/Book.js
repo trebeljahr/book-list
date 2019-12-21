@@ -1,26 +1,28 @@
 import React from 'react';
 import ReadDates from './ReadDates';
+import OwnedToggle from './OwnedToggle';
 
 const Book = ({ book, changeBookInfo, deleteBook }) => {
-    const { id, name, purchased } = book;
-    const purchase = book => {
-        return {
+    const { id, name, author, purchased } = book;
+
+    const changePurchased = () => {
+        changeBookInfo(id, book => ({
             ...book,
-            purchased: true,
-        };
+            purchased: !purchased,
+        }));
     };
-    const unPurchase = book => {
-        return {
+    const changeAuthor = e => {
+        changeBookInfo(id, book => ({
             ...book,
-            purchased: false,
-        };
+            author: e.target.value,
+        }));
     };
 
-    const buy = () => {
-        changeBookInfo(id, purchase);
-    };
-    const unbuy = () => {
-        changeBookInfo(id, unPurchase);
+    const changeName = e => {
+        changeBookInfo(id, book => ({
+            ...book,
+            name: e.target.value,
+        }));
     };
 
     const deleteThisBook = () => {
@@ -28,17 +30,18 @@ const Book = ({ book, changeBookInfo, deleteBook }) => {
     };
 
     return (
-        <li className={book.readDates.length > 0 ? 'strikethrough' : ''}>
-            {name}
+        <div>
+            <input
+                className={book.readDates.length > 0 ? 'strikethrough' : ''}
+                value={name}
+                onChange={changeName}
+            />
+            <input value={author} onChange={changeAuthor} />
             <button onClick={deleteThisBook}>Delete</button>
-
-            {purchased ? (
-                <button onClick={unbuy}>Unbuy</button>
-            ) : (
-                <button onClick={buy}>Buy</button>
-            )}
+            <OwnedToggle purchased={purchased} changePurchased={changePurchased} />
+            {book.readDates.length > 0 ? <div>Read</div> : <div>Not read yet</div>}
             <ReadDates book={book} changeBookInfo={changeBookInfo} />
-        </li>
+        </div>
     );
 };
 
