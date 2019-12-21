@@ -10,7 +10,7 @@ export function getExampleBook() {
         author: 'Joanne K. Rowling',
         name: 'Harry Potter',
         readDates: [],
-        purchased: false,
+        owned: false,
     };
     return exampleBook;
 }

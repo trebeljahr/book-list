@@ -26,7 +26,7 @@ const Booklist = () => {
         let out = true;
         filters.forEach(filter => {
             switch (filter.category) {
-                case possibleFilters.purchased:
+                case possibleFilters.owned:
                     if (book[filter.category] !== filter.value) {
                         out = out && false;
                     }
@@ -36,6 +36,15 @@ const Booklist = () => {
                     const bookname = book[filter.category].toLowerCase();
                     const foundSubstring = bookname.search(filter.value.toLowerCase()) !== -1;
                     if (!foundSubstring) {
+                        out = out && false;
+                    }
+                    break;
+                case possibleFilters.read:
+                    const read = book.readDates.length > 0;
+                    if (filter.value && !read) {
+                        out = out && false;
+                    }
+                    if (!filter.value && read) {
                         out = out && false;
                     }
                     break;

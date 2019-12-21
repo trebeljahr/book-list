@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReadDates from './ReadDates';
 import OwnedToggle from './OwnedToggle';
 
 const Book = ({ book, changeBookInfo, deleteBook }) => {
-    const { id, name, author, purchased } = book;
-
-    const changePurchased = () => {
+    const { id, name, author, owned } = book;
+    const changeOwned = () => {
         changeBookInfo(id, book => ({
             ...book,
-            purchased: !purchased,
-        }));
-    };
-    const changeAuthor = e => {
-        changeBookInfo(id, book => ({
-            ...book,
-            author: e.target.value,
+            owned: !owned,
         }));
     };
 
@@ -25,23 +18,39 @@ const Book = ({ book, changeBookInfo, deleteBook }) => {
         }));
     };
 
-    const deleteThisBook = () => {
-        deleteBook(id);
+    const changeAuthor = e => {
+        changeBookInfo(id, book => ({
+            ...book,
+            author: e.target.value,
+        }));
     };
 
     return (
         <div>
-            <input
-                className={book.readDates.length > 0 ? 'strikethrough' : ''}
-                value={name}
-                onChange={changeName}
-            />
-            <input value={author} onChange={changeAuthor} />
-            <button onClick={deleteThisBook}>Delete</button>
-            <OwnedToggle purchased={purchased} changePurchased={changePurchased} />
+            <h2>
+                <EditableHeader value={name} changeValue={changeName} />
+            </h2>
+            <h3>
+                by <EditableHeader value={author} changeValue={changeAuthor} />
+            </h3>
+            <OwnedToggle owned={owned} changeOwned={changeOwned} />
             {book.readDates.length > 0 ? <div>Read</div> : <div>Not read yet</div>}
             <ReadDates book={book} changeBookInfo={changeBookInfo} />
         </div>
+    );
+};
+
+const EditableHeader = ({ value, changeValue }) => {
+    const [edit, setEdit] = useState(false);
+    const changeEdit = () => {
+        setEdit(edit => !edit);
+    };
+
+    return (
+        <>
+            {edit ? <input className="textInput" value={value} onChange={changeValue} /> : value}
+            <button onClick={changeEdit}>Edit</button>
+        </>
     );
 };
 

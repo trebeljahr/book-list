@@ -7,7 +7,7 @@ import StringFilter from './StringFilter';
 export const possibleFilters = {
     name: 'name',
     author: 'author',
-    purchased: 'purchased',
+    owned: 'owned',
     read: 'read',
 };
 
@@ -45,7 +45,14 @@ const Filters = ({ filters, setFilters }) => {
         <div className="filters">
             <ToggleFilter
                 filters={filters}
-                category={possibleFilters.purchased}
+                category={possibleFilters.owned}
+                changeFilter={changeFilter}
+                deleteFilter={deleteFilter}
+                addFilter={addFilter}
+            />
+            <ToggleFilter
+                filters={filters}
+                category={possibleFilters.read}
                 changeFilter={changeFilter}
                 deleteFilter={deleteFilter}
                 addFilter={addFilter}

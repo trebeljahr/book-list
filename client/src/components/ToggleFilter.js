@@ -3,33 +3,54 @@ import { uuid } from '../utils';
 
 const ToggleFilter = ({ category, filters, changeFilter, addFilter, deleteFilter }) => {
     const filter = filters.find(filter => filter.category === category);
-    const toggle = () => {
-        changeFilter(filter.id, !filter.value);
+
+    const toggleOn = () => {
+        if (!filter) {
+            return addThisFilter(true);
+        }
+        changeFilter(filter.id, true);
+    };
+    const toggleOff = () => {
+        if (!filter) {
+            return addThisFilter(false);
+        }
+        changeFilter(filter.id, false);
     };
     const deleteThisFilter = () => {
         deleteFilter(filter.id);
     };
-    const addThisFilter = () => {
+
+    const addThisFilter = (value = false) => {
         const newFilter = {
             id: uuid(),
             category,
-            value: false,
+            value,
         };
         addFilter(newFilter);
     };
     return (
-        <div>
-            {category}:{' '}
-            {!filter ? (
-                <button onClick={addThisFilter}>ON</button>
-            ) : (
-                <>
-                    <button onClick={toggle}>
-                        {filter.value ? 'Showing Owned' : 'Showing Unowned'}
-                    </button>
-                    <button onClick={deleteThisFilter}>OFF</button>
-                </>
-            )}
+        <div className="toggleFilterContainer">
+            <button
+                className="toggleFilterButton"
+                disabled={!filter ? true : false}
+                onClick={deleteThisFilter}
+            >
+                Show all
+            </button>
+            <button
+                className="toggleFilterButton"
+                disabled={filter ? (filter.value ? true : false) : false}
+                onClick={toggleOn}
+            >
+                Only {category}
+            </button>
+            <button
+                className="toggleFilterButton"
+                disabled={filter ? (filter.value ? false : true) : false}
+                onClick={toggleOff}
+            >
+                Only not {category}
+            </button>
         </div>
     );
 };

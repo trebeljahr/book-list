@@ -5,7 +5,7 @@ import OwnedToggle from './OwnedToggle';
 const AddBook = ({ setBooks }) => {
     const [author, setAuthor] = useState('');
     const [name, setName] = useState('');
-    const [purchased, setPurchased] = useState(false);
+    const [owned, setOwned] = useState(false);
 
     const addBook = () => {
         const newBook = {
@@ -13,7 +13,7 @@ const AddBook = ({ setBooks }) => {
             name,
             id: uuid(),
             readDates: [],
-            purchased,
+            owned,
         };
         setBooks(books => [...books, newBook]);
     };
@@ -21,8 +21,8 @@ const AddBook = ({ setBooks }) => {
     const changeName = e => {
         setName(e.target.value);
     };
-    const changePurchased = () => {
-        setPurchased(purchased => !purchased);
+    const changeOwned = () => {
+        setOwned(owned => !owned);
     };
     const changeAuthor = e => {
         setAuthor(e.target.value);
@@ -34,7 +34,7 @@ const AddBook = ({ setBooks }) => {
             <div>
                 Name: <input value={name} onChange={changeName} />
                 Author: <input value={author} onChange={changeAuthor} />
-                <OwnedToggle purchased={purchased} changePurchased={changePurchased} />
+                <OwnedToggle owned={owned} changeOwned={changeOwned} />
                 <button onClick={addBook}>Add!</button>
             </div>
         </div>

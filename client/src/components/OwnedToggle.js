@@ -1,17 +1,13 @@
 import React from 'react';
 
-const OwnedToggle = ({ purchased, changePurchased }) => {
+const OwnedToggle = ({ owned, changeOwned }) => {
     return (
         <div>
             <label className="switch">
-                <input
-                    type="checkbox"
-                    checked={purchased ? true : false}
-                    onChange={changePurchased}
-                />
+                <input type="checkbox" checked={owned ? true : false} onChange={changeOwned} />
                 <span className="slider round" />
             </label>
-            {purchased ? 'Owned' : 'Not owned'}
+            {owned ? 'Owned' : 'Not owned'}
         </div>
     );
 };
