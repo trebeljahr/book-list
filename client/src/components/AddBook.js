@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { uuid } from '../utils';
-import OwnedToggle from './OwnedToggle';
+import { OwnedToggle, ReadToggle } from './Toggles';
 
 const AddBook = ({ setBooks, open, setOpen }) => {
     const openNewBookForm = () => {
@@ -12,7 +12,8 @@ const AddBook = ({ setBooks, open, setOpen }) => {
 
     const [author, setAuthor] = useState('');
     const [name, setName] = useState('');
-    const [owned, setOwned] = useState(false);
+    const [owned, setOwned] = useState(true);
+    const [read, setRead] = useState(true);
 
     const addBook = () => {
         const newBook = {
@@ -21,6 +22,7 @@ const AddBook = ({ setBooks, open, setOpen }) => {
             id: uuid(),
             readDates: [],
             owned,
+            read,
         };
         setBooks(books => [...books, newBook]);
         setOpen(false);
@@ -28,6 +30,12 @@ const AddBook = ({ setBooks, open, setOpen }) => {
 
     const changeName = e => {
         setName(e.target.value);
+    };
+
+    const changeRead = () => {
+        setRead(read => {
+            return read ? false : new Date();
+        });
     };
     const changeOwned = () => {
         setOwned(owned => {
@@ -49,7 +57,13 @@ const AddBook = ({ setBooks, open, setOpen }) => {
                 <input value={name} onChange={changeName} />
                 <label>Author:</label>
                 <input value={author} onChange={changeAuthor} />
-                <OwnedToggle owned={owned} changeOwned={changeOwned} />
+                <div className="container">
+                    Own? <OwnedToggle owned={owned} changeOwned={changeOwned} />
+                </div>
+                <div className="container">
+                    Read? <ReadToggle read={read} changeRead={changeRead} />
+                </div>
+
                 <button onClick={addBook}>Add!</button>
             </div>
         </div>

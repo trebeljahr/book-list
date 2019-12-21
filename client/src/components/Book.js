@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import ReadDates from './ReadDates';
-import OwnedToggle from './OwnedToggle';
+import { OwnedToggle, ReadToggle } from './Toggles';
 
 const Book = ({ book, changeBookInfo }) => {
-    const { id, name, author, owned } = book;
-    const [edit, setEdit] = useState(false);
-    const toggleEdit = () => {
-        setEdit(edit => !edit);
-    };
+    const { id, name, author, owned, read } = book;
     const changeOwned = () => {
         changeBookInfo(id, book => ({
             ...book,
             owned: owned ? false : new Date(),
+        }));
+    };
+    const changeRead = () => {
+        changeBookInfo(id, book => ({
+            ...book,
+            read: read ? false : new Date(),
         }));
     };
 
@@ -31,43 +32,46 @@ const Book = ({ book, changeBookInfo }) => {
 
     return (
         <div className="bookListing">
-            {!edit ? (
-                <>
-                    <h1>{name}</h1>
-                    <h4>by {author}</h4>
-                </>
-            ) : (
-                <>
-                    <h1>
-                        <EditableHeader value={name} changeValue={changeName} />
-                    </h1>
-                    <h4>
-                        by <EditableHeader value={author} changeValue={changeAuthor} />
-                    </h4>
-                    <OwnedToggle owned={owned} changeOwned={changeOwned} />
-                    {/* {book.readDates.length > 0 ? <div>Read</div> : <div>Not read yet</div>}
+            <OwnedToggle owned={owned} changeOwned={changeOwned} />
+            <ReadToggle read={read} changeRead={changeRead} />
+            <div>
+                <h1>
+                    <EditableHeader value={name} changeValue={changeName} />
+                </h1>
+                <h4>
+                    <EditableHeader value={author} additional="by" changeValue={changeAuthor} />
+                </h4>
+                {/* {book.readDates.length > 0 ? <div>Read</div> : <div>Not read yet</div>}
                     <ReadDates book={book} changeBookInfo={changeBookInfo} /> */}
-                </>
-            )}
-            <button className="top right" onClick={toggleEdit}>
-                {edit ? <i class="fas fa-check"></i> : <i class="fas fa-pen"></i>}
-            </button>
+            </div>
         </div>
     );
 };
 
-const EditableHeader = ({ value, changeValue }) => {
+const EditableHeader = ({ value, changeValue, additional }) => {
     const [edit, setEdit] = useState(false);
     const changeEdit = () => {
         setEdit(edit => !edit);
     };
-
     return (
         <>
-            {edit ? <input className="textInput" value={value} onChange={changeValue} /> : value}
-            <button className="editButton" onClick={changeEdit}>
-                {edit ? <i class="fas fa-check"></i> : <i class="fas fa-pen"></i>}
-            </button>
+            {edit ? (
+                <>
+                    <button className="editButton" onClick={changeEdit}>
+                        <i className="fas fa-check"></i>
+                    </button>
+                    {additional && <p className="textInput">{additional}</p>}
+                    <input className="textInput" value={value} onChange={changeValue} />
+                </>
+            ) : (
+                <>
+                    <button className="editButton" onClick={changeEdit}>
+                        <i className="fas fa-pen"></i>
+                    </button>
+                    {additional && <p className="textInput">{additional}</p>}
+                    <p className="textInput">{value}</p>
+                </>
+            )}
         </>
     );
 };

@@ -44,11 +44,10 @@ const Booklist = () => {
                     }
                     break;
                 case possibleFilters.read:
-                    const read = book.readDates.length > 0;
-                    if (filter.value && !read) {
+                    if (filter.value && !book.read) {
                         out = out && false;
                     }
-                    if (!filter.value && read) {
+                    if (!filter.value && book.read) {
                         out = out && false;
                     }
                     break;
