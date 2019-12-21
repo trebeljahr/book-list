@@ -12,7 +12,12 @@ const StringFilter = ({ category, filters, changeFilter, addFilter, deleteFilter
         addFilter(newFilter);
     };
 
-    if (!filter) return <button onClick={addThisFilter}>Add {category} filter</button>;
+    if (!filter)
+        return (
+            <div className="toggleFilterContainer">
+                <button onClick={addThisFilter}>Add {category} filter</button>
+            </div>
+        );
     return (
         <ActualFilter
             filter={filter}
@@ -37,7 +42,7 @@ const ActualFilter = ({ filter, category, changeFilter, deleteFilter }) => {
     };
     useEffect(toggle, [value]);
     return (
-        <div>
+        <div className="toggleFilterContainer">
             {category}: <input value={value} onChange={writeValue} />
             <button onClick={deleteThisFilter}>Delete!</button>
         </div>

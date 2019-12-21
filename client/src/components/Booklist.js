@@ -10,6 +10,7 @@ const defaultBooks = [getExampleBook()];
 const Booklist = () => {
     const [books, setBooks] = useState(defaultBooks);
     const [filters, setFilters] = useState(defaultFilters);
+    const [open, setOpen] = useState(false);
 
     const changeBookInfo = (id, fn) => {
         setBooks(findAndExecute(books, id, fn));
@@ -27,7 +28,10 @@ const Booklist = () => {
         filters.forEach(filter => {
             switch (filter.category) {
                 case possibleFilters.owned:
-                    if (book[filter.category] !== filter.value) {
+                    if (filter.value && !book.owned) {
+                        out = out && false;
+                    }
+                    if (!filter.value && book.owned) {
                         out = out && false;
                     }
                     break;
@@ -57,20 +61,21 @@ const Booklist = () => {
 
     return (
         <div className="booklist">
-            <Filters filters={filters} setFilters={setFilters} />
-            <ul>
-                {booksToRender.map(book => {
-                    return (
-                        <Book
-                            key={book.id}
-                            book={book}
-                            changeBookInfo={changeBookInfo}
-                            deleteBook={deleteBook}
-                        ></Book>
-                    );
-                })}
-            </ul>
-            <AddBook books={books} setBooks={setBooks} />
+            {!open && <Filters filters={filters} setFilters={setFilters} />}
+            {!open &&
+                (booksToRender.length > 0
+                    ? booksToRender.map(book => {
+                          return (
+                              <Book
+                                  key={book.id}
+                                  book={book}
+                                  changeBookInfo={changeBookInfo}
+                                  deleteBook={deleteBook}
+                              ></Book>
+                          );
+                      })
+                    : 'It seems like you have no books matching these criteria.')}
+            <AddBook books={books} setBooks={setBooks} open={open} setOpen={setOpen} />
         </div>
     );
 };

@@ -43,34 +43,38 @@ const Filters = ({ filters, setFilters }) => {
 
     return (
         <div className="filters">
-            <ToggleFilter
-                filters={filters}
-                category={possibleFilters.owned}
-                changeFilter={changeFilter}
-                deleteFilter={deleteFilter}
-                addFilter={addFilter}
-            />
-            <ToggleFilter
-                filters={filters}
-                category={possibleFilters.read}
-                changeFilter={changeFilter}
-                deleteFilter={deleteFilter}
-                addFilter={addFilter}
-            />
-            <StringFilter
-                filters={filters}
-                category={possibleFilters.name}
-                changeFilter={changeFilter}
-                deleteFilter={deleteFilter}
-                addFilter={addFilter}
-            />
-            <StringFilter
-                filters={filters}
-                category={possibleFilters.author}
-                changeFilter={changeFilter}
-                deleteFilter={deleteFilter}
-                addFilter={addFilter}
-            />
+            <div className="filterContainer">
+                <ToggleFilter
+                    filters={filters}
+                    category={possibleFilters.owned}
+                    changeFilter={changeFilter}
+                    deleteFilter={deleteFilter}
+                    addFilter={addFilter}
+                />
+                <ToggleFilter
+                    filters={filters}
+                    category={possibleFilters.read}
+                    changeFilter={changeFilter}
+                    deleteFilter={deleteFilter}
+                    addFilter={addFilter}
+                />
+            </div>
+            <div className="filterContainer">
+                <StringFilter
+                    filters={filters}
+                    category={possibleFilters.name}
+                    changeFilter={changeFilter}
+                    deleteFilter={deleteFilter}
+                    addFilter={addFilter}
+                />
+                <StringFilter
+                    filters={filters}
+                    category={possibleFilters.author}
+                    changeFilter={changeFilter}
+                    deleteFilter={deleteFilter}
+                    addFilter={addFilter}
+                />
+            </div>
         </div>
     );
 };
